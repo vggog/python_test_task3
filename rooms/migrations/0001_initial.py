@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Room',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField()),
                 ('price', models.DecimalField(decimal_places=2, max_digits=8)),
                 ('num_of_seats', models.IntegerField()),
@@ -24,10 +25,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BookingRecords',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('date_from', models.DateField()),
                 ('date_to', models.DateField()),
-                ('room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rooms.room')),
+                ('room', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='rooms.room')),
             ],
         ),
     ]
