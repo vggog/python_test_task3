@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rooms</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{% static 'css/rooms_page.css' %}">
+</head>
+<body>
+    <h1>Доступные комнаты</h1>
+    <div class="rooms">
+        {% for room in rooms %}
+        <div class="room">
+            <p><b>Название:</b> {{ room.title }}</p>
+            <p><b>Количество мест:</b> {{ room.num_of_seats }}</p>
+            <p><b>Цена:</b> {{ room.price }} руб.</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
