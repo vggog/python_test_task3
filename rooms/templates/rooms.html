@@ -8,6 +8,13 @@
 </head>
 <body>
     <h1>Доступные комнаты</h1>
+    <div class="sorting">
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Sorting value">
+        </form>
+    </div>
     <div class="rooms">
         {% for room in rooms %}
         <div class="room">

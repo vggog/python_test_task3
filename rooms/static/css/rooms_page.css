@@ -1,11 +1,13 @@
-h1 {
-    text-align: center
-}
-.rooms {
-    margin-top: 50px;
+body {
     width: 800px;
     margin-left: auto;
     margin-right: auto;
+}
+h1 {
+    text-align: center
+}
+.sorting {
+    margin-top: 50px;
 }
 .room {
     padding: 10px;
