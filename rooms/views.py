@@ -11,7 +11,7 @@ def all_rooms(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = FilterAndSortForm(request.POST)
         if form.is_valid():
-            rooms = service.get_rooms_with_sorting(form)
+            rooms = service.get_rooms_with_sorting_and_filtering(form)
         else:
             return HttpResponse('Не валидная форма')
     else:

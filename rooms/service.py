@@ -1,5 +1,6 @@
+from django.db.models.query import QuerySet
+
 from .models import Room
-from .forms import FilterAndSortForm
 
 
 class Service:
@@ -16,16 +17,41 @@ class Service:
         column = value_from_form if is_ascending else f'-{value_from_form}'
         return Room.objects.order_by(column)
 
-    def get_rooms_with_sorting(self, form: FilterAndSortForm):
+    def _get_rooms_with_sorting(self, sorting_value: str, rooms: QuerySet):
         """Метод для получения отсортированных данных по нужным критериям"""
+        if sorting_value == 'price_up':
+            return rooms.order_by('price')
+        elif sorting_value == 'price_down':
+            return rooms.order_by('-price')
+        elif sorting_value == 'seats_up':
+            return rooms.order_by('num_of_seats')
+        elif sorting_value == 'seats_down':
+            return rooms.order_by('-num_of_seats')
+
+        return rooms.all()
+
+    def get_rooms_with_sorting_and_filtering(self, form):
+        """Возвращает комнаты по нужным критериям"""
+        price_filter_from = form.cleaned_data['price_from']
+        price_filter_up_to = form.cleaned_data['price_up_to']
+
+        seats_filter_from = form.cleaned_data['num_of_seats_from']
+        seats_filter_up_to = form.cleaned_data['num_of_seats_up_to']
+
+        rooms = Room.objects
+
+        if price_filter_from:
+            rooms = rooms.filter(price__gte=price_filter_from)
+
+        if price_filter_up_to:
+            rooms = rooms.filter(price__lte=price_filter_up_to)
+
+        if seats_filter_from:
+            rooms = rooms.filter(num_of_seats__gte=seats_filter_from)
+
+        if seats_filter_up_to:
+            rooms = rooms.filter(num_of_seats__lte=seats_filter_up_to)
+
         sorting = form.cleaned_data['sort']
-        if sorting == 'price_up':
-            return self.get_sorting_rooms('price')
-        elif sorting == 'price_down':
-            return self.get_sorting_rooms('price', False)
-        elif sorting == 'seats_up':
-            return self.get_sorting_rooms('num_of_seats')
-        elif sorting == 'seats_down':
-            return self.get_sorting_rooms('num_of_seats', False)
-        else:
-            return self.get_all_rooms()
+
+        return self._get_rooms_with_sorting(sorting_value=sorting, rooms=rooms)

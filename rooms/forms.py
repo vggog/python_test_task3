@@ -10,6 +10,28 @@ class FilterAndSortForm(forms.Form):
         ('seats_down', 'Количество мест по убыванию'),
     ]
 
+    price_from = forms.CharField(
+        label='Цена от',
+        widget=forms.NumberInput,
+        required=False
+    )
+    price_up_to = forms.CharField(
+        label='Цена до',
+        widget=forms.NumberInput,
+        required=False
+    )
+
+    num_of_seats_from = forms.CharField(
+        label='Количество мест от',
+        widget=forms.NumberInput,
+        required=False
+    )
+    num_of_seats_up_to = forms.CharField(
+        label='Количество мест до',
+        widget=forms.NumberInput,
+        required=False
+    )
+
     sort = forms.ChoiceField(
         label='Сортировать',
         widget=forms.Select,
