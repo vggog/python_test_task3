@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Создание аккаунта{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p>Вы уже вошли в аккаунт, выйдете из него и создайте новый аккаунт</p>
+    {% else %}
+        <h1>Создать аккаунт</h1>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            <p><input type="submit" value="Создать аккаунт"></p>
+        </form>
+    {% endif %}
+{% endblock %}
