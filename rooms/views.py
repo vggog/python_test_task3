@@ -28,3 +28,22 @@ def all_rooms(request: HttpRequest) -> HttpResponse:
         'rooms.html',
         context
     )
+
+
+def get_room(request: HttpRequest, room_id: int) -> HttpResponse:
+    """Вьюха для получения информации о комнате"""
+    service = Service()
+    room = service.get_room(room_id)
+    if room is None:
+        return HttpResponse('Room doesn\'t found')
+
+    context = {
+        'room': room,
+        'unbooked_dates': service.get_unbooked_days(room_id)
+    }
+
+    return render(
+        request,
+        'room.html',
+        context
+    )

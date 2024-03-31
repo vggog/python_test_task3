@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Комната{% endblock %}
+
+{% block content %}
+    <h1>{{ room.title }}</h1>
+    <div class="room">
+        <p><b>Количество мест:</b> {{ room.num_of_seats }}</p>
+        <p><b>Цена:</b> {{ room.price }} руб.</p>
+        <p><b>Даты доступные для бронирования(в следующие 15 дней):</b></p>
+        {% for date in unbooked_dates %}
+            <p>{{ date }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

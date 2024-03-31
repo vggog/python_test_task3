@@ -19,7 +19,7 @@
     <div class="rooms">
         {% for room in rooms %}
         <div class="room">
-            <p><b>Название:</b> {{ room.title }}</p>
+            <p><b>Название: </b><a href="{% url 'room' room.pk %}">{{ room.title }}</a></p>
             <p><b>Количество мест:</b> {{ room.num_of_seats }}</p>
             <p><b>Цена:</b> {{ room.price }} руб.</p>
         </div>
