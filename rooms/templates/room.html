@@ -8,20 +8,19 @@
     <div class="room">
         <p><b>Количество мест:</b> {{ room.num_of_seats }}</p>
         <p><b>Цена:</b> {{ room.price }} руб.</p>
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p><input type="submit" value="Забронировать"></p>
+            </form>
+        {% else %}
+            <p>Чтобы забронировать даты необходимо авторизоваться</p>
+        {% endif %}
+        <p>{{ info }}</p>
         <p><b>Даты доступные для бронирования(в следующие 15 дней):</b></p>
         {% for date in unbooked_dates %}
             <p>{{ date }}</p>
         {% endfor %}
     </div>
-
-<script>
-  $(function () {
-    $("#id_data_from").datepicker({
-      format:'dd/mm/yyyy',
-    });
-    $("#id_data_until").datepicker({
-      format:'dd/mm/yyyy',
-    });
-  });
-</script>
 {% endblock %}

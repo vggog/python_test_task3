@@ -4,6 +4,7 @@ from typing import Iterator
 from django.db.models.query import QuerySet
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 from .models import Room, BookingRecords
 
@@ -113,3 +114,40 @@ class Service:
         sorting = form.cleaned_data['sort']
 
         return self._get_rooms_with_sorting(sorting_value=sorting, rooms=rooms)
+
+    def book_date(
+            self,
+            date_from: date,
+            date_to: date,
+            room: Room,
+            user: User,
+    ) -> str:
+        """
+        Метод для создания записи о брони.
+        Возвращает строку содержащую информацию об успешном бронирование
+        или ошибке.
+        """
+        is_existing_book = (
+            BookingRecords.objects
+            .filter(room=room)
+            .filter(
+                date_from__lte=date_to,
+                date_to__gte=date_from
+            )
+        )
+
+        if is_existing_book:
+            return (
+                'Бронь на введённые даты уже есть. '
+                'Выберете другие даты или комнату.'
+            )
+
+        booking_record = BookingRecords.objects.create(
+            date_from=date_from,
+            date_to=date_to,
+            room=room,
+            user=user,
+        )
+        booking_record.save()
+
+        return 'Бронь успешна.'

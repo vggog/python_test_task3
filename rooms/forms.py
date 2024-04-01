@@ -69,3 +69,16 @@ class FilterAndSortForm(forms.Form):
                 )
 
         return cleaned_data
+
+
+class BookingRecordForm(forms.Form):
+    data_from = forms.DateField(
+        label='Дата от',
+        widget=forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
+    data_until = forms.DateField(
+        label='Дата до',
+        widget=forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )

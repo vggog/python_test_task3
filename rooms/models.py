@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Room(models.Model):
@@ -9,5 +10,9 @@ class Room(models.Model):
 
 class BookingRecords(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
     date_from = models.DateField()
     date_to = models.DateField()
