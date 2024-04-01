@@ -11,8 +11,21 @@
     <h1>Доступные комнаты</h1>
     <div class="sorting">
         <form method="post">
-            {% csrf_token %}
-            {{ form }}
+          {% csrf_token %}
+          <div>
+            {% for field in form %}
+                <div class="form-group">
+                    {{field.label_tag}} {{ field }}
+                    <div class="error">
+                        {% if field.errors %}
+                            <div class="alert alert-danger">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
             <input type="submit" value="Получить">
         </form>
     </div>

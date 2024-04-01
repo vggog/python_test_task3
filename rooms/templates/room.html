@@ -13,4 +13,15 @@
             <p>{{ date }}</p>
         {% endfor %}
     </div>
+
+<script>
+  $(function () {
+    $("#id_data_from").datepicker({
+      format:'dd/mm/yyyy',
+    });
+    $("#id_data_until").datepicker({
+      format:'dd/mm/yyyy',
+    });
+  });
+</script>
 {% endblock %}

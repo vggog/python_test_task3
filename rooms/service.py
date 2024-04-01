@@ -87,6 +87,9 @@ class Service:
         seats_filter_from = form.cleaned_data['num_of_seats_from']
         seats_filter_up_to = form.cleaned_data['num_of_seats_up_to']
 
+        date_from = form.cleaned_data['data_from']
+        date_until = form.cleaned_data['data_until']
+
         rooms = Room.objects
 
         if price_filter_from:
@@ -100,6 +103,12 @@ class Service:
 
         if seats_filter_up_to:
             rooms = rooms.filter(num_of_seats__lte=seats_filter_up_to)
+
+        if date_from and date_until:
+            rooms = rooms.exclude(
+                bookingrecords__date_from__lte=date_until,
+                bookingrecords__date_to__gte=date_from
+            )
 
         sorting = form.cleaned_data['sort']
 

@@ -8,14 +8,12 @@ from .forms import FilterAndSortForm
 def all_rooms(request: HttpRequest) -> HttpResponse:
     service = Service()
 
+    rooms = service.get_all_rooms()
     if request.method == 'POST':
         form = FilterAndSortForm(request.POST)
         if form.is_valid():
             rooms = service.get_rooms_with_sorting_and_filtering(form)
-        else:
-            return HttpResponse('Не валидная форма')
     else:
-        rooms = service.get_all_rooms()
         form = FilterAndSortForm()
 
     context = {

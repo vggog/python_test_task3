@@ -31,9 +31,41 @@ class FilterAndSortForm(forms.Form):
         widget=forms.NumberInput,
         required=False
     )
+    data_from = forms.DateField(
+        label='Дата от',
+        required=False,
+        widget=forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
+    data_until = forms.DateField(
+        label='Дата до',
+        required=False,
+        widget=forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
 
     sort = forms.ChoiceField(
         label='Сортировать',
         widget=forms.Select,
         choices=SORT,
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data['data_from'] and not cleaned_data['data_until']:
+            raise forms.ValidationError(
+                '"Дата до" также должно быть заполнена'
+            )
+        elif not cleaned_data['data_from'] and cleaned_data['data_until']:
+            raise forms.ValidationError(
+                '"Дата от" также должно быть заполнена'
+            )
+
+        if cleaned_data['data_from'] and cleaned_data['data_until']:
+            if cleaned_data['data_from'] > cleaned_data['data_until']:
+                raise forms.ValidationError(
+                    '"Дата от" должен быть больше чем "Дата до"'
+                )
+
+        return cleaned_data
