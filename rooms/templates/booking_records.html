@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block additional_media %}
+    <link href="{% static "css/booking_records.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Моя бронь{% endblock %}
+
+{% block content %}
+    <h1>Забронированные даты</h1>
+        {% if messages %}
+                {% for message in messages %}
+                    <p style="color:red">{{ message|safe }}</p>
+                {% endfor %}
+        {% endif %}
+    <div class="booked_dates">
+        {% for date in booking_records %}
+            <div class="booked_date">
+                <p><b>Комната: </b><a href="{% url 'room' date.room.pk %}">{{ date.room.title }}</a></p>
+                <p><b>Даты пронирования: </b> {{ date.date_from }} - {{ date.date_to }}</p>
+                 <form action="{% url 'delete_booked_dates' date.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Удалить">
+                </form>
+            </div>
+        {% empty %}
+            <p style="text-align:center">Забронированные комнаты не найдены.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

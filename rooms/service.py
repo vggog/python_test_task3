@@ -151,3 +151,26 @@ class Service:
         booking_record.save()
 
         return 'Бронь успешна.'
+
+    @staticmethod
+    def get_booking_records(user: User) -> BookingRecords:
+        """Метод для получения всех записей на бронь сделанные пользоватедем"""
+        return BookingRecords.objects.filter(user=user)
+
+    @staticmethod
+    def delete_booked_date(
+            booking_record_id: int,
+            user: User
+    ) -> tuple[bool, str]:
+        """Метод для удаления записи на бронь"""
+        try:
+            booking_record = BookingRecords.objects.get(id=booking_record_id)
+        except ObjectDoesNotExist:
+            return False, 'Запись о броне не найдена.'
+
+        if booking_record.user != user:
+            return False, 'У вас не прав на удаление записи бронирования.'
+
+        booking_record.delete()
+
+        return True, 'Успешно удалено.'

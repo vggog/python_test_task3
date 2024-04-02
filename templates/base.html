@@ -24,6 +24,7 @@
                 {% csrf_token %}
                 <button type="submit">Выйти</button>
             </form>
+            <a href="{% url 'booked_dates' %}">Забронированные даты</a>
         {% else %}
             <li><a href="{% url 'login' %}">Войти</a></li>
         {% endif %}

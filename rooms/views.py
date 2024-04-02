@@ -1,7 +1,9 @@
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import get_user
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.decorators import login_required
 
 from .service import Service
 from .forms import FilterAndSortForm, BookingRecordForm
@@ -66,3 +68,33 @@ def get_room(request: HttpRequest, room_id: int) -> HttpResponse:
         'room.html',
         context
     )
+
+
+@login_required(login_url='/login/')
+def get_booking_records(request: HttpRequest) -> HttpResponse:
+    """Вьюха для получения забронированных записей"""
+    context = {
+        'booking_records': Service.get_booking_records(get_user(request)),
+    }
+
+    return render(
+        request,
+        'booking_records.html',
+        context
+    )
+
+
+@login_required(login_url='/login/')
+def delete_booked_required(
+        request: HttpRequest,
+        booked_record_id: int
+) -> HttpResponseRedirect:
+    """Вьюха для удалеения записи на бронь"""
+    success, message = Service.delete_booked_date(
+        booked_record_id,
+        get_user(request)
+    )
+    if not success:
+        messages.error(request, message)
+
+    return redirect('booked_dates')
