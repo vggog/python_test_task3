@@ -127,6 +127,9 @@ class Service:
         Возвращает строку содержащую информацию об успешном бронирование
         или ошибке.
         """
+        if date_from > date_to:
+            return '"Дата от" не может быть больше чем "Дата до"'
+
         is_existing_book = (
             BookingRecords.objects
             .filter(room=room)

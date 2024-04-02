@@ -16,15 +16,9 @@
             {% for field in form %}
                 <div class="form-group">
                     {{field.label_tag}} {{ field }}
-                    <div class="error">
-                        {% if field.errors %}
-                            <div class="alert alert-danger">
-                                {{ field.errors }}
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
             {% endfor %}
+            {{ form.non_field_errors }}
             </div>
             <input type="submit" value="Получить">
         </form>
