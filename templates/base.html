@@ -26,7 +26,7 @@
             </form>
             <a href="{% url 'booked_dates' %}">Забронированные даты</a>
         {% else %}
-            <li><a href="{% url 'login' %}">Войти</a></li>
+            <a href="{% url 'login' %}">Войти</a>
         {% endif %}
     {% endif %}
 </div>

@@ -12,5 +12,8 @@
             {% csrf_token %}
             <p><input type="submit" value="Войти"></p>
         </form>
+        <p style="align-item:center">
+            <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </p>
     {% endif %}
 {% endblock %}
